@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "Tropical Cyclone Simulations"
+version = "0.1.0"
+description = "Final Project Team 77 AM215"
+authors = ["Your Name <you@example.com>"]
+license = "Apache"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Cartopy = "^0.24.1"
+matplotlib = "^3.9.2"
+numpy = "^1.26"
+pandas = "^2.2.3"
+xarray = "^2024.11.0"
+tcpypi = "^1.3.5"
+ipykernel = "^6.29.5"
+llvmlite = "^0.43"
+numba = "^0.60.0"
+intake-esm = "^2024.2.6"
+requests = "^2.32.3"
+aiohttp = "^3.11.7"
+gcsfs = "^2024.10.0"
+tropycal = "^1.3"
+seaborn = "^0.13.2"
+pytest = "^8.3.4"
+geopandas = "^1.0.1"
+rasterio = "^1.4.3"
+distributed = "^2024.12.0"
+rioxarray = "^0.18.1"
+pytest-cov = "^6.0.0"
+setuptools = "^75.6.0"
+setuptools-scm = "^8.1.0"
+furo = "^2024.8.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,637 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="tc_extremes module" href="tc_extremes.html" /><link rel="prev" title="Modeling Tropical Cyclone Intensity" href="index.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>tc_potential module - Modeling Tropical Cyclone Intensity</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Modeling Tropical Cyclone Intensity</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Modeling Tropical Cyclone Intensity</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">tc_potential module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tc_extremes.html">tc_extremes module</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/tc_potential.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="module-tc_potential">
+<span id="tc-potential-module"></span><h1>tc_potential module<a class="headerlink" href="#module-tc_potential" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="tc_potential.CMIP6DataFetcher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tc_potential.</span></span><span class="sig-name descname"><span class="pre">CMIP6DataFetcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://storage.googleapis.com/cmip6/pangeo-cmip6.json'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.CMIP6DataFetcher" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Fetches and queries climate data from the CMIP6 dataset.</p>
+<p>Provides tools for querying and retrieving CMIP6 datasets for
+specific institutions, experiments, and climate variables.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.CMIP6DataFetcher.fetch_data">
+<span class="sig-name descname"><span class="pre">fetch_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">institution_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['ts',</span> <span class="pre">'psl',</span> <span class="pre">'ta',</span> <span class="pre">'hus']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Amon'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_options_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.CMIP6DataFetcher.fetch_data" title="Link to this definition">¶</a></dt>
+<dd><p>Fetches monthly mean climate data from the CMIP6 dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>institution_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Institution responsible for the dataset.</p></li>
+<li><p><strong>source_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Climate model identifier.</p></li>
+<li><p><strong>experiment_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Experiment configuration (e.g., “historical”, “ssp119”).</p></li>
+<li><p><strong>member_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Ensemble member identifier (e.g. “r1i1p3f1”).</p></li>
+<li><p><strong>grid_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Type of model grid (e.g. “gn”, “gr”).</p></li>
+<li><p><strong>variable_id</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of variable IDs to retrieve. Defaults to <cite>[“ts”, “psl”, “ta”, “hus”]</cite>.</p></li>
+<li><p><strong>table_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Source table for the variables. Defaults to <cite>“Amon”</cite>.</p></li>
+<li><p><strong>return_options_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <cite>True</cite>, returns a DataFrame of dataset options. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>set_attr</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <cite>True</cite>, saves the query as an attribute. Defaults to <cite>True</cite>.</p></li>
+<li><p><strong>**data_kwargs</strong> – Additional filtering arguments for the query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>If <cite>return_options_only=True</cite>: Returns a DataFrame of available dataset options.</p></li>
+<li><p>If <cite>return_options_only=False</cite>: Returns a dictionary of xarray Datasets for the selected variables.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, xr.Dataset] | pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tc_potential.DistributedManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tc_potential.</span></span><span class="sig-name descname"><span class="pre">DistributedManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads_per_worker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.DistributedManager" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the Dask distributed client to enable parallel computing.</p>
+<p>This class provides an interface for initializing and shutting down a
+Dask distributed client for parallelized computations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tc_potential.DistributedManager.cluster">
+<span class="sig-name descname"><span class="pre">cluster</span></span><a class="headerlink" href="#tc_potential.DistributedManager.cluster" title="Link to this definition">¶</a></dt>
+<dd><p>Local Dask cluster instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dask.distributed.LocalCluster</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="tc_potential.DistributedManager.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#tc_potential.DistributedManager.client" title="Link to this definition">¶</a></dt>
+<dd><p>Dask client instance for managing distributed tasks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dask.distributed.Client</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.DistributedManager.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.DistributedManager.close" title="Link to this definition">¶</a></dt>
+<dd><p>Shuts down the Dask client and cluster.</p>
+<p>This method safely closes the Dask cluster and client resources.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tc_potential.</span></span><span class="sig-name descname"><span class="pre">PIAnalysis</span></span><a class="headerlink" href="#tc_potential.PIAnalysis" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages the calculation, analysis, and visualization of tropical cyclone potential intensity (PI).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.analyze_pi">
+<span class="sig-name descname"><span class="pre">analyze_pi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">set_attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">pi_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.analyze_pi" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates potential intensity (PI) values from the environmental dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>set_attr</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <cite>True</cite>, sets the calculated PI dataset as a class attribute. Defaults to <cite>True</cite>.</p></li>
+<li><p><strong>**pi_kwargs</strong> – Additional arguments for the PI calculation algorithm.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataset containing potential intensity calculations (<cite>vmax</cite>, <cite>pmin</cite>, <cite>ifl</cite>, etc.).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.calculate_mean">
+<span class="sig-name descname"><span class="pre">calculate_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['sst',</span> <span class="pre">'msl',</span> <span class="pre">'t',</span> <span class="pre">'r']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['vmax',</span> <span class="pre">'pmin']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.calculate_mean" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates the spatial mean of environmental and PI variables over time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_vars</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of environmental variables to include. Defaults to <cite>[“sst”, “msl”, “t”, “r”]</cite>.</p></li>
+<li><p><strong>pi_vars</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of PI variables to include. Defaults to <cite>[“vmax”, “pmin”]</cite>.</p></li>
+<li><p><strong>set_attr</strong> (<em>bool</em><em>, </em><em>optional</em>) – If <cite>True</cite>, saves the results as a class attribute. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of mean values for the selected variables.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.calculate_pi">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_pi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sst_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sst'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msl_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'msl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'p'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'t'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">pi_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.calculate_pi" title="Link to this definition">¶</a></dt>
+<dd><p>Calculates potential intensity (PI) values from the given environmental dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_ds</strong> (<em>xr.Dataset</em>) – The xarray Dataset containing environmental variables needed for PI calculations.</p></li>
+<li><p><strong>sst_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for sea surface temperature. Defaults to “sst”.</p></li>
+<li><p><strong>msl_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for mean sea level pressure. Defaults to “msl”.</p></li>
+<li><p><strong>p_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for pressure levels. Defaults to “p”.</p></li>
+<li><p><strong>t_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for air temperature. Defaults to “t”.</p></li>
+<li><p><strong>r_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for mixing ratio. Defaults to “r”.</p></li>
+<li><p><strong>**pi_kwargs</strong> – Additional keyword arguments to pass to the PI calculation function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dataset containing the following variables:</dt><dd><ul class="simple">
+<li><p><cite>vmax</cite> (float): Potential intensity in meters per second.</p></li>
+<li><p><cite>pmin</cite> (float): Minimum central pressure in hectopascal.</p></li>
+<li><dl class="simple">
+<dt><cite>ifl</cite> (int): Flag indicating calculation status.</dt><dd><ul>
+<li><p><cite>0</cite>: Invalid input data.</p></li>
+<li><p><cite>1</cite>: Successful calculation.</p></li>
+<li><p><cite>2</cite>: Convergence failure.</p></li>
+<li><p><cite>3</cite>: Missing values in the temperature profile.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><cite>t0</cite> (float): Outflow temperature in Kelvin.</p></li>
+<li><p><cite>otl</cite> (float): Outflow temperature level in hectopascal.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.convert_variables">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmip6_ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ts_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ts'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psl_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'psl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plev_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'plev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ta_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ta'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hus_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hus'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.convert_variables" title="Link to this definition">¶</a></dt>
+<dd><p>Converts variables in a CMIP6 dataset to a format compatible with potential intensity calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmip6_ds</strong> (<em>xr.Dataset</em>) – The input xarray Dataset containing raw CMIP6 variables.</p></li>
+<li><p><strong>ts_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for sea surface temperature. Defaults to “ts”.</p></li>
+<li><p><strong>psl_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for sea level pressure. Defaults to “psl”.</p></li>
+<li><p><strong>plev_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for pressure levels. Defaults to “plev”.</p></li>
+<li><p><strong>ta_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for air temperature. Defaults to “ta”.</p></li>
+<li><p><strong>hus_label</strong> (<em>str</em><em>, </em><em>optional</em>) – Variable name for specific humidity. Defaults to “hus”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The xarray Dataset with variables converted to the appropriate units and names for potential intensity calculations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.fit_mean_trends">
+<span class="sig-name descname"><span class="pre">fit_mean_trends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annual_trend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_errors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_attr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.fit_mean_trends" title="Link to this definition">¶</a></dt>
+<dd><p>Fits linear trends to the mean variable time series.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>annual_trend</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to compute trends on an annual basis. Defaults to <cite>False</cite> (monthly trends).</p></li>
+<li><p><strong>return_errors</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to return residuals and errors. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>set_attr</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to save the trend results as a class attribute. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Trend coefficients and errors, optionally including residuals.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame | tuple[pd.DataFrame, pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.plot_map">
+<span class="sig-name descname"><span class="pre">plot_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sst'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Map</span> <span class="pre">of</span> <span class="pre">CMIP6</span> <span class="pre">Data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.plot_map" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the specified variable as a map using a geographic projection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<em>str</em><em>, </em><em>optional</em>) – The variable to plot (e.g., “sst”). Defaults to “sst”.</p></li>
+<li><p><strong>time</strong> (<em>str</em><em> | </em><em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – The time period to plot. Can be a single time (str)
+or a range of times (Sequence[str]). If None, the mean over all times is plotted. Defaults to None.</p></li>
+<li><p><strong>cmap_limits</strong> (<em>Sequence</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – The minimum and maximum values for the color scale. Defaults to [None, None].</p></li>
+<li><p><strong>plot_title</strong> (<em>str</em><em>, </em><em>optional</em>) – The title of the plot. Defaults to “Map of CMIP6 Data”.</p></li>
+<li><p><strong>ax</strong> (<em>Axes</em><em>, </em><em>optional</em>) – The matplotlib Axes on which to plot. If None, a new Axes is created. Defaults to None.</p></li>
+<li><p><strong>**plot_kwargs</strong> – Additional keyword arguments to pass to the <cite>xarray.plot</cite> function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matplotlib Axes and the plot object created by xarray.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[Axes, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.plot_mean">
+<span class="sig-name descname"><span class="pre">plot_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sst'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yearly_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trendline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Monthly</span> <span class="pre">Mean</span> <span class="pre">CMIP6</span> <span class="pre">Data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plot_kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.plot_mean" title="Link to this definition">¶</a></dt>
+<dd><p>Plots the time series of the mean of a variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable</strong> (<em>str</em><em>, </em><em>optional</em>) – The variable to plot (e.g., “sst”). Defaults to “sst”.</p></li>
+<li><p><strong>yearly_window</strong> (<em>int</em><em>, </em><em>optional</em>) – The size of the moving average window in years. If None, no smoothing is applied. Defaults to None.</p></li>
+<li><p><strong>trendline</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to overlay a trendline on the plot. Defaults to False.</p></li>
+<li><p><strong>additional_df</strong> (<em>pd.DataFrame</em><em>, </em><em>optional</em>) – An additional DataFrame to concatenate with the mean DataFrame for extended plotting. Defaults to None.</p></li>
+<li><p><strong>plot_title</strong> (<em>str</em><em>, </em><em>optional</em>) – The title of the plot. Defaults to “Monthly Mean CMIP6 Data”.</p></li>
+<li><p><strong>ax</strong> (<em>Axes</em><em>, </em><em>optional</em>) – The matplotlib Axes on which to plot. If None, a new Axes is created. Defaults to None.</p></li>
+<li><p><strong>**plot_kwargs</strong> – Additional keyword arguments to pass to the <cite>pandas.Series.plot</cite> function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The matplotlib Axes containing the plot.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tc_potential.PIAnalysis.set_data">
+<span class="sig-name descname"><span class="pre">set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">year_mon_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">month_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[None,</span> <span class="pre">None]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_limits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geo_limits_touching</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">convert_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tc_potential.PIAnalysis.set_data" title="Link to this definition">¶</a></dt>
+<dd><p>Configures environmental data for PI analysis by applying spatial and temporal limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>env_ds</strong> (<em>xr.Dataset</em><em>, </em><em>optional</em>) – Dataset containing necessary environmental variables for PI calculation.</p></li>
+<li><p><strong>year_mon_limits</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Inclusive time range limits as <cite>[start, end]</cite> in ISO format.</p></li>
+<li><p><strong>month_limits</strong> (<em>Sequence</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – Inclusive month range limits as <cite>[start, end]</cite>.</p></li>
+<li><p><strong>lat_limits</strong> (<em>Sequence</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Inclusive latitude range limits as <cite>[min, max]</cite>.</p></li>
+<li><p><strong>lon_limits</strong> (<em>Sequence</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Inclusive longitude range limits as <cite>[min, max]</cite>.</p></li>
+<li><p><strong>geo_limits</strong> (<em>gpd.GeoDataFrame</em><em>, </em><em>optional</em>) – Geospatial constraints as a GeoDataFrame.</p></li>
+<li><p><strong>geo_limits_touching</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to include geometries that touch the boundary. Defaults to <cite>False</cite>.</p></li>
+<li><p><strong>convert_vars</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to convert variable units and formats. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reference to the class instance with updated environmental data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="tc_extremes.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">tc_extremes module</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Home</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Abigail Kinaro, Kent Codding, Max Bahar
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">tc_potential module</a><ul>
+<li><a class="reference internal" href="#tc_potential.CMIP6DataFetcher"><code class="docutils literal notranslate"><span class="pre">CMIP6DataFetcher</span></code></a><ul>
+<li><a class="reference internal" href="#tc_potential.CMIP6DataFetcher.fetch_data"><code class="docutils literal notranslate"><span class="pre">CMIP6DataFetcher.fetch_data()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tc_potential.DistributedManager"><code class="docutils literal notranslate"><span class="pre">DistributedManager</span></code></a><ul>
+<li><a class="reference internal" href="#tc_potential.DistributedManager.cluster"><code class="docutils literal notranslate"><span class="pre">DistributedManager.cluster</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.DistributedManager.client"><code class="docutils literal notranslate"><span class="pre">DistributedManager.client</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.DistributedManager.close"><code class="docutils literal notranslate"><span class="pre">DistributedManager.close()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis"><code class="docutils literal notranslate"><span class="pre">PIAnalysis</span></code></a><ul>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.analyze_pi"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.analyze_pi()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.calculate_mean"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.calculate_mean()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.calculate_pi"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.calculate_pi()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.convert_variables"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.convert_variables()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.fit_mean_trends"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.fit_mean_trends()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.plot_map"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.plot_map()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.plot_mean"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.plot_mean()</span></code></a></li>
+<li><a class="reference internal" href="#tc_potential.PIAnalysis.set_data"><code class="docutils literal notranslate"><span class="pre">PIAnalysis.set_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    </body>
+</html>

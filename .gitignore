@@ -1,0 +1,17 @@
+**/__pycache__
+*.pyc
+.DS_Store
+.coverage
+
+*~
+*.bak
+*.swp
+*.zip
+
+.bash_history
+**/.cache
+**/.local
+
+poetry.lock
+
+.pytest_cache
